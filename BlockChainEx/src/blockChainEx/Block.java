@@ -26,7 +26,7 @@ public class Block {
 		this.hash = calculateHash();
 	}
 	
-	public String calculateHash(){
+	public String calculateHash(){  //해쉬 함수 계산(그 전 블록 + 생산하는 시간 + 현재까지 채굴시도한 수 + 머클트리 루트)
 		String calculatehash= StringUtil.applySha256(
 				previousHash+
 				Long.toString(timeStamp)+
@@ -37,7 +37,7 @@ public class Block {
 	
 	public void mineBlock(int difficulty) {
 		merkleRoot = StringUtil.getMerkleRoot(transactions);
-		String target = new String(new char[difficulty]).replace('\0', '0');
+		String target = new String(new char[difficulty]).replace('\0', '0'); // 정해진 difficulty의 수만큼 해쉬코드에 0이 있는가 확인 하는 작업
 		while(!hash.substring(0,difficulty).equals(target)) {
 			nonce++;
 			hash=calculateHash();
@@ -46,7 +46,7 @@ public class Block {
 	}
 	
 	//Add transactions to this block
-	public boolean addTransaction(Transaction transaction) {
+	public boolean addTransaction(Transaction transaction) {  // 거래 내역 붙이는 과정
 		//process transaction and check if valid, unless block is genesis block then ignore.
 		if(transaction == null) return false;		
 		if((previousHash != "0")) {
